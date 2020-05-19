@@ -6,13 +6,16 @@ import { UnAuthenticatedRoute } from './unauthenticated-route';
 import { AuthContextProps} from './authentication/auth-context-provider'
 import { ProtectedRoute} from './protected-route'
 import { Dashboard } from './components/dashboard';
+import { Header } from './components/header';
 
 function App() {
   return (
+    <div>
+    <Header/>
     <Router>
       <Switch>
-        <UnAuthenticatedRoute exact path="/" component={(authProps: AuthContextProps) => (
-          <Login {...authProps}/>
+        <UnAuthenticatedRoute exact path="/" component={() => (
+          <Login/>
         )}/>
         <ProtectedRoute path="/dashboard" component={() => (
           <Dashboard/>)}/>
@@ -20,6 +23,7 @@ function App() {
           <h1>my info!</h1>)}/>
       </Switch>
     </Router>
+    </div>
   );
 }
 

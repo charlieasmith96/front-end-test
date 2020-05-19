@@ -6,10 +6,10 @@ export interface BandwidthRequest {
     session_token: string;
     from: number;
     to: number;
-    aggregation?: AGGREGATION
+    aggregate?: AGGREGATE
 }
 
-export enum AGGREGATION {
+export enum AGGREGATE {
     MAX = 'max', MIN = 'min', SUM = 'sum'
 }
 
@@ -17,6 +17,7 @@ export const getBandwidthDataBySessionToken = (bandwidthRequest: BandwidthReques
     return superagent
     .post(`${url}/bandwidth`)
     .send(bandwidthRequest)
-    .then(response => response.body)
-    .catch(response => response.status)
+    .then((err, response => {
+        console.log("I'm going through this route!")
+        return response.body})
 }

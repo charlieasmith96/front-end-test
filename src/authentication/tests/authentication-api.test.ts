@@ -27,8 +27,6 @@ describe('get authentication status', () => {
         .post(`/auth`)
         .reply(403)
 
-        const responseBody = await authenticateUser({identifiant: "test", password: "test-password"});
-
-        expect(responseBody).toEqual(403)
+        expect(async() => await authenticateUser({identifiant: "test", password: "test-password"})).toThrowError()
     })     
  })

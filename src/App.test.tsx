@@ -8,7 +8,9 @@ import { RootContext } from './authentication/auth-context-provider';
 const testRootContext = {
   isAuthenticated: true,
   login: jest.fn(),
-  getAuthenticationBody: jest.fn()
+  getAuthenticationBody: jest.fn(),
+  logout: jest.fn(),
+  authenticationError: null
 }
 
 test('unauthorised route does render children when unauthenticated', () => {

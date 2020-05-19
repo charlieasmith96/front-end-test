@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext, SyntheticEvent } from 'react'
-import { getBandwidthDataBySessionToken, BandwidthRequest, AGGREGATION } from '../api/bandwidth-api'
+import { getBandwidthDataBySessionToken, BandwidthRequest, AGGREGATE } from '../api/bandwidth-api'
 import { RootContext } from '../authentication/auth-context-provider';
 import { Chart, BroadcastData } from './chart';
-import { BIT_TO_GIGBABIT_DIVISOR, generateDates } from '../constants'
+import { convertBitValueToGigabitValue, generateDates, subtractDate, convertBitsArrayToGigabitsArray } from '../utils'
 import { Form } from 'react-bootstrap';
+import {Error} from './error';
 
 export enum DATA_TYPES { CDN = 'cdn', P2P = 'p2p'}
 
@@ -13,15 +14,15 @@ export const Dashboard = () => {
 
     const [cdnData, setCdnData] = useState<BroadcastData>();
     const [p2pData, setP2pData] = useState<BroadcastData>();
-    const [startDate, setStartDate] = useState((new Date().getDate()-15).valueOf())
+    const [startDate, setStartDate] = useState(subtractDate(15))
     const [endDate, setEndDate] = useState(Date.now())
     const [dates, setDates] = useState<Date[]>([])
-    const [cdnMax, setCdnMax] = useState();
-    const [p2pMax, setP2pMax] = useState();
+    const [cdnMax, setCdnMax] = useState<number>();
+    const [p2pAndCdnMax, setP2pAndCdnMax] = useState<number>();
+    const [errorMessage, setErrorMessage] = useState(null);
 
 
      useEffect(() => {
-        console.log(new Date().valueOf())
         var bandwidthRequest = {session_token: getAuthenticationBody(),
              from: startDate,
              to: endDate
@@ -29,37 +30,34 @@ export const Dashboard = () => {
 
         getBandwidthDataBySessionToken(bandwidthRequest)
         .then((response) => { 
-            
             let cdcData = response[DATA_TYPES.CDN];
             let p2pData = response[DATA_TYPES.P2P]
+
             let cdcDataTransformed = 
                     cdcData.map((element : number[]) => convertBitsArrayToGigabitsArray(element))
+
             let p2pDataTransformed = 
                     p2pData.map((element : number[]) => convertBitsArrayToGigabitsArray(element))
 
             setCdnData(cdcDataTransformed)
             setP2pData(p2pDataTransformed)
-        })
+        }).catch((err) => { setErrorMessage(errorMessage)});
 
         var bandwidthRequestForMax : BandwidthRequest = {session_token: getAuthenticationBody(),
             from: startDate,
             to: endDate,
-            aggregation: AGGREGATION.MAX
+            aggregate: AGGREGATE.MAX
            }
 
         getBandwidthDataBySessionToken(bandwidthRequestForMax)
         .then((response) => {
-            setCdnMax(response[DATA_TYPES.CDN]);
-            setP2pMax(response[DATA_TYPES.P2P])
-        })
+            setCdnMax(convertBitValueToGigabitValue(response[DATA_TYPES.CDN]));
+            setP2pAndCdnMax(convertBitValueToGigabitValue(response[DATA_TYPES.P2P] + response[DATA_TYPES.CDN]));
+        }).catch((err) => { setErrorMessage(errorMessage)})
 
         setDates(generateDates())
 
      }, [startDate, endDate])
-
-    const convertBitsArrayToGigabitsArray = (bitValueArray : number[]) => {
-        return [bitValueArray[0], bitValueArray[1] / BIT_TO_GIGBABIT_DIVISOR]
-    }
 
     const handleStartDateChange = (event : any) => {
         setStartDate(event.target.value)
@@ -71,7 +69,10 @@ export const Dashboard = () => {
 
     return (
         <div>
-            <Chart dataSet1={cdnData} dataSet2={p2pData} endDate={endDate} startDate={startDate} p2pMax={p2pMax} cdnMax={cdnMax}/>
+            <h2>Bandwidth</h2>
+            {!errorMessage ? <div>
+            (<Chart dataSet1={cdnData} dataSet2={p2pData} 
+            endDate={endDate} startDate={startDate} p2pAndCdnMax={p2pAndCdnMax} cdnMax={cdnMax}/>
             <Form.Control as="select" onChange={(e) => handleStartDateChange(e)}>
                 {dates.map((date, i) => {
                     return (
@@ -86,6 +87,7 @@ export const Dashboard = () => {
                     )
                 })}
             </Form.Control>
+            </div>: (<Error errorMessage={errorMessage}/>)}
         </div>
     )
 }

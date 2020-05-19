@@ -5,12 +5,22 @@ export interface Authentication {
     password: string;
 }
 
+export interface LogoutRequest {
+    session_token: string
+}
+
 const url = 'http://localhost:3000'
 
-export var authenticateUser = (authentication: Authentication) : Promise<any> => {
+export const authenticateUser = (authentication: Authentication) : Promise<any> => {
     return superagent
     .post(`${url}/auth`)
     .send(authentication)
     .then(response => response.body)
-    .catch(response => response.status)
+}
+
+export const logoutUser = (logoutRequest: LogoutRequest)  => {
+     superagent
+    .post(`${url}/logout`)
+    .send(logoutRequest)
+    .then(response => response.body)
 }

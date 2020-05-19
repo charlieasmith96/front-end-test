@@ -1,0 +1,25 @@
+.nav-bar {
+    display: flex;
+    height: 100px;
+    background-color: #12A5ED;
+}
+
+.nav-bar-text {
+    font-size: 70px;
+    color: white;
+    margin-left: 20px;
+    margin-top: 0px
+}
+
+.nav-bar-logout {
+    position: absolute;
+    font-size: 35px;
+    color: white;
+    margin-top: 12px;
+    right: 20px;
+    padding: 10px;
+    background: none;
+	border: none;
+	padding: 0;
+	outline: none;
+}

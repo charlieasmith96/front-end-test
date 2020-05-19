@@ -9,7 +9,6 @@ interface ProtectedRouteProps extends RouteProps {
 
 export const ProtectedRoute = ({component: RouteComponent, ...resstOfRouteProps}: ProtectedRouteProps) => {
   const authContext = useContext(RootContext);
-  console.log(authContext);
   return (
     <Route
       {...resstOfRouteProps}

@@ -5,9 +5,10 @@ import { Login } from '../login';
 const testRootContext = {
     isAuthenticated: true,
     login: jest.fn(),
-    getAuthenticationBody: jest.fn()
+    getAuthenticationBody: jest.fn(),
+    logout: jest.fn(),
+    authenticationError: null
   }
-
 describe('should render login form', () => {
     it('should render Username and Password', () => {
         const { getByText } = render(<Login {...testRootContext}/>);

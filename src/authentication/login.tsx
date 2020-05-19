@@ -1,6 +1,7 @@
-import React, { useState, SyntheticEvent } from 'react'
-import { AuthContextProps } from './auth-context-provider'
+import React, { useState, SyntheticEvent, useContext } from 'react'
+import { AuthContextProps, RootContext } from './auth-context-provider'
 import { Button, FormGroup, FormControl } from "react-bootstrap";
+import { Error } from '../components/error';
 
 interface LoginProps extends AuthContextProps {}
 
@@ -43,6 +44,7 @@ export const Login = (props: LoginProps) => {
         <Button data-testid='test-button' block disabled={!validateForm()} type="submit">
           Login
         </Button>
+        {props.authenticationError && <Error errorMessage={props.authenticationError}/>}
       </form>
     </div>
     )

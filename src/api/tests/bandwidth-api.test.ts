@@ -1,5 +1,5 @@
 import { getBandwidthDataBySessionToken } from '../bandwidth-api';
-import { AGGREGATION } from '../bandwidth-api'
+import { AGGREGATE } from '../bandwidth-api'
 const nock = require('nock')
 
 describe('', () => {
@@ -19,7 +19,7 @@ describe('', () => {
         const result = await getBandwidthDataBySessionToken({session_token: "test-token",
             from: 1589809358800,
             to: 1589899358800,
-            aggregation: AGGREGATION.SUM
+            aggregate: AGGREGATE.SUM
            })
 
         expect(result).toEqual(response)
@@ -32,12 +32,14 @@ describe('', () => {
         .post(`/bandwidth`)
         .reply(400)
 
-        const result = await getBandwidthDataBySessionToken({session_token: "test-token",
-            from: 1589809358800,
-            to: 1589899358800,
-            aggregation: AGGREGATION.SUM
-           })
+        const request = {session_token: "test-token",
+        from: 1589809358800,
+        to: 1589899358800,
+        aggregate: AGGREGATE.SUM
+       }
 
-        expect(result).toEqual(400)
+        var result =  await getBandwidthDataBySessionToken(request);
+        expect(result).toEqual("Bad Request")
+
+        })
     })
-})
