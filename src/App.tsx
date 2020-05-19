@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import './App.css';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import  {Login}  from './login';
+import  {Login}  from './authentication/login';
 import { UnAuthenticatedRoute } from './unauthenticated-route';
-import { AuthContextProps} from './auth-context-provider'
+import { AuthContextProps} from './authentication/auth-context-provider'
 import { ProtectedRoute} from './protected-route'
-import { Dashboard } from './dashboard';
+import { Dashboard } from './components/dashboard';
 
 function App() {
   return (

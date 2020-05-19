@@ -1,5 +1,5 @@
 import React from 'react';
-import { authenticateUser, Authentication } from './authentication-api';
+import { authenticateUser, Authentication } from '../api/authentication-api';
 
 export interface AuthContextProps {
     isAuthenticated: boolean;

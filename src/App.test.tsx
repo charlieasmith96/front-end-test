@@ -3,7 +3,7 @@ import { render} from '@testing-library/react';
 import {UnAuthenticatedRoute} from './unauthenticated-route';
 import {BrowserRouter as Router} from 'react-router-dom';
 import { ProtectedRoute } from './protected-route';
-import { RootContext } from './auth-context-provider';
+import { RootContext } from './authentication/auth-context-provider';
 
 const testRootContext = {
   isAuthenticated: true,

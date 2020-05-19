@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext, SyntheticEvent } from 'react'
-import { getBandwidthDataBySessionToken, BandwidthRequest, AGGREGATION } from './bandwidth-api'
-import { RootContext } from './auth-context-provider';
+import { getBandwidthDataBySessionToken, BandwidthRequest, AGGREGATION } from '../api/bandwidth-api'
+import { RootContext } from '../authentication/auth-context-provider';
 import { Chart, BroadcastData } from './chart';
-import { BIT_TO_GIGBABIT_DIVISOR, generateDates } from './constants'
+import { BIT_TO_GIGBABIT_DIVISOR, generateDates } from '../constants'
 import { Form } from 'react-bootstrap';
 
 export enum DATA_TYPES { CDN = 'cdn', P2P = 'p2p'}

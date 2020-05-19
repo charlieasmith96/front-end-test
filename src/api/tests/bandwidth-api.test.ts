@@ -1,5 +1,5 @@
-import { getBandwidthDataBySessionToken } from './bandwidth-api';
-import { AGGREGATION } from './bandwidth-api'
+import { getBandwidthDataBySessionToken } from '../bandwidth-api';
+import { AGGREGATION } from '../bandwidth-api'
 const nock = require('nock')
 
 describe('', () => {

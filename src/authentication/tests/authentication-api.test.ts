@@ -1,4 +1,4 @@
-import { authenticateUser } from './authentication-api';
+import { authenticateUser } from '../../api/authentication-api';
 
 const nock = require('nock')
 
