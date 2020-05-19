@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useContext } from 'react';
 import './App.css';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import  {Login}  from './Login';
+import { UnAuthenticatedRoute } from './UnauthenticatedRoute';
+import { AuthContextProps} from './RootContextProvider'
+import { ProtectedRoute} from './ProtectedRoute'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <UnAuthenticatedRoute exact path="/" component={(authProps: AuthContextProps) => (
+          <Login {...authProps}/>
+        )}/>
+        <ProtectedRoute path="/dashboard" component={() => (
+          <h1>Hey!</h1>)}/>
+        <ProtectedRoute path="/my-info" component={() => (
+          <h1>my info!</h1>)}/>
+      </Switch>
+    </Router>
   );
 }
 
