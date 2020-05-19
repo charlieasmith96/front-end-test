@@ -1,6 +1,5 @@
-import React, { useState, PropsWithChildren, useEffect } from 'react';
-import { authenticateUser, Authentication } from './AuthenticationApi';
-import { NavItem } from 'react-bootstrap';
+import React from 'react';
+import { authenticateUser, Authentication } from './authentication-api';
 
 export interface AuthContextProps {
     isAuthenticated: boolean;

@@ -1,6 +1,6 @@
 import React, { useContext, PropsWithChildren } from 'react';
 import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-dom';
-import { RootContext } from './RootContextProvider';
+import { RootContext } from './auth-context-provider';
 
 
 interface ProtectedRouteProps extends RouteProps {

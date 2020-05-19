@@ -1,5 +1,4 @@
-import React from 'react'
-import { authenticateUser } from './AuthenticationApi';
+import { authenticateUser } from './authentication-api';
 
 const nock = require('nock')
 

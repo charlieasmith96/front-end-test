@@ -1,9 +1,9 @@
 import React from 'react';
 import { render} from '@testing-library/react';
-import {UnAuthenticatedRoute} from './UnauthenticatedRoute';
+import {UnAuthenticatedRoute} from './unauthenticated-route';
 import {BrowserRouter as Router} from 'react-router-dom';
-import { ProtectedRoute } from './ProtectedRoute';
-import { RootContext } from './RootContextProvider';
+import { ProtectedRoute } from './protected-route';
+import { RootContext } from './auth-context-provider';
 
 const testRootContext = {
   isAuthenticated: true,

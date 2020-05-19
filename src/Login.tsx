@@ -1,7 +1,6 @@
-import React, { useContext, useState, SyntheticEvent } from 'react'
-import { RootContext, AuthContextProps } from './RootContextProvider'
+import React, { useState, SyntheticEvent } from 'react'
+import { AuthContextProps } from './auth-context-provider'
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import { Redirect, Route } from 'react-router-dom';
 
 interface LoginProps extends AuthContextProps {}
 
