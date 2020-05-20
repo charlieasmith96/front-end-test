@@ -10,7 +10,7 @@ interface RawData {
 export const processBandwidthData = (data : RawData) : number[][][] => {
 
     let cdnData = data[DATA_TYPES.CDN];
-    let p2pData = data[DATA_TYPES.P2P]
+    let p2pData = data[DATA_TYPES.P2P];
 
     let cdnDataTransformed = 
             cdnData.map((element : number[]) => convertBitsArrayToGigabitsArray(element))

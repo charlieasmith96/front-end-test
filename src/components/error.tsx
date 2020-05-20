@@ -6,10 +6,8 @@ interface ErrorProps {
     className?: string
 }
 
-export const Error = (props: ErrorProps) => {
-    return (
-        <div className={`error-message ${props.className}`}>
-            {props.errorMessage}
-        </div>
-    )
-}
+export const Error = (props: ErrorProps) => (
+  <div className={`error-message ${props.className}`}>
+    {props.errorMessage}
+  </div>
+);

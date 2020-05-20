@@ -18,65 +18,63 @@ export interface AuthState {
 export const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps);
 
 export class AuthContextProvider extends React.Component<{}, AuthState> {
-
-    constructor(props : AuthContextProps) {
-        super(props)
-        if (window.localStorage.getItem('authenticationBody')) {
-            this.state = { isAuthenticated: true, authenticationError: null} 
-        } else {
-            this.state = { isAuthenticated: false, authenticationError: null}
-        }
+  constructor(props : AuthContextProps) {
+    super(props);
+    if (window.localStorage.getItem('authenticationBody')) {
+      this.state = { isAuthenticated: true, authenticationError: null };
+    } else {
+      this.state = { isAuthenticated: false, authenticationError: null };
     }
-    
-    login = (authentication: Authentication) : void => {
-        let response;
-            response = authenticateUser(authentication)
-            .then((response) => {
-                this.setState({isAuthenticated: true, authenticationError: null})
-                window.localStorage.setItem('authenticationBody', response.session_token);
-            }).catch((err) => {
-                this.setState({isAuthenticated:false})
-                if (err.message === 'Not Found') {
-                    this.setState({authenticationError: INVALID_CREDENTIALS_ERROR_STRING})
-                } else {
-                    this.setState({authenticationError: UNEXPECTED_ERROR_STRING})
-                }
-            })
   }
 
+    login = (authentication: Authentication) : void => {
+      let response;
+      response = authenticateUser(authentication)
+        .then((response) => {
+          this.setState({ isAuthenticated: true, authenticationError: null });
+          window.localStorage.setItem('authenticationBody', response.session_token);
+        }).catch((err) => {
+          this.setState({ isAuthenticated: false });
+          if (err.message === 'Not Found') {
+            this.setState({ authenticationError: INVALID_CREDENTIALS_ERROR_STRING });
+          } else {
+            this.setState({ authenticationError: UNEXPECTED_ERROR_STRING });
+          }
+        });
+    }
+
     logout = () : void => {
-        logoutUser({session_token: this.getAuthenticationBody()})
+      logoutUser({ session_token: this.getAuthenticationBody() })
         .catch((err) => {
-            this.setState({isAuthenticated:false, authenticationError: FAILED_LOGOUT_ERROR_STRING})
-        })
-        this.setState({isAuthenticated: false})
-        window.localStorage.removeItem('authenticationBody');
+          this.setState({ isAuthenticated: false, authenticationError: FAILED_LOGOUT_ERROR_STRING });
+        });
+      this.setState({ isAuthenticated: false });
+      window.localStorage.removeItem('authenticationBody');
     }
 
    getAuthenticationBody = () : string => {
-        var authenticationBody = window.localStorage.getItem('authenticationBody');
+     const authenticationBody = window.localStorage.getItem('authenticationBody');
 
-        if (authenticationBody) {
-            return authenticationBody
-        } else {
-            this.setState({isAuthenticated: false})
-            throw new Error('No authentication token')
-        }
-    }
+     if (authenticationBody) {
+       return authenticationBody;
+     }
+     this.setState({ isAuthenticated: false });
+     throw new Error('No authentication token');
+   }
 
-    render() {
-  const contextValues = {
-      isAuthenticated: this.state.isAuthenticated,
-      login: this.login,
-      getAuthenticationBody: this.getAuthenticationBody,
-      logout: this.logout,
-      authenticationError: this.state.authenticationError
-  };
+   render() {
+     const contextValues = {
+       isAuthenticated: this.state.isAuthenticated,
+       login: this.login,
+       getAuthenticationBody: this.getAuthenticationBody,
+       logout: this.logout,
+       authenticationError: this.state.authenticationError,
+     };
 
-  return (
-      <AuthContext.Provider value={contextValues}>
-          {this.props.children}
-      </AuthContext.Provider>
-  )
-}
+     return (
+       <AuthContext.Provider value={contextValues}>
+         {this.props.children}
+       </AuthContext.Provider>
+     );
+   }
 }
