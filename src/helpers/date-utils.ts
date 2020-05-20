@@ -12,11 +12,3 @@ export const generateDates = () : Date[] => {
 export const subtractDate = (subtractor : number) : number => {
     return new Date(new Date().setDate(new Date().getDate()-subtractor)).valueOf()
 }
-
-export const convertBitsArrayToGigabitsArray = (bitValueArray : number[]) : number[] => {
-    return [bitValueArray[0], Math.round(bitValueArray[1] / BIT_TO_GIGBABIT_DIVISOR)];
-}
-
-export const convertBitValueToGigabitValue = (bitValue: number) : number => {
-    return bitValue / BIT_TO_GIGBABIT_DIVISOR;
-}

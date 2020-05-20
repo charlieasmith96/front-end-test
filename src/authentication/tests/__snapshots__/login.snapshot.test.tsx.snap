@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render login page correctly 1`] = `
+<div
+  className="background"
+>
+  <div
+    className="login-container"
+  >
+    <h1
+      className="login-title"
+    >
+      Welcome, please log in
+    </h1>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="login"
+      >
+        <div
+          className="form-group"
+        >
+          <h2
+            className="field-label"
+          >
+             Username
+          </h2>
+          <input
+            autoFocus={true}
+            className="form-field form-control"
+            data-testid="test-username-id"
+            id="email"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="login form-group"
+        >
+          <h2
+            className="field-label"
+          >
+            Password
+          </h2>
+          <input
+            className="form-field form-control"
+            data-testid="test-password-id"
+            id="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+        </div>
+        <button
+          className="login-button btn btn-primary btn-block"
+          data-testid="test-button"
+          disabled={true}
+          type="submit"
+        >
+          Log in
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`should render login page correctly with error 1`] = `
+<div
+  className="background"
+>
+  <div
+    className="login-container"
+  >
+    <h1
+      className="login-title"
+    >
+      Welcome, please log in
+    </h1>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="login"
+      >
+        <div
+          className="form-group"
+        >
+          <h2
+            className="field-label"
+          >
+             Username
+          </h2>
+          <input
+            autoFocus={true}
+            className="form-field form-control"
+            data-testid="test-username-id"
+            id="email"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="login form-group"
+        >
+          <h2
+            className="field-label"
+          >
+            Password
+          </h2>
+          <input
+            className="form-field form-control"
+            data-testid="test-password-id"
+            id="password"
+            onChange={[Function]}
+            type="password"
+            value=""
+          />
+        </div>
+        <button
+          className="login-button btn btn-primary btn-block"
+          data-testid="test-button"
+          disabled={true}
+          type="submit"
+        >
+          Log in
+        </button>
+      </div>
+    </form>
+    <div
+      className="error-message undefined"
+    >
+      test-error
+    </div>
+  </div>
+</div>
+`;

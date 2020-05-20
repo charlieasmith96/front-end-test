@@ -19,7 +19,6 @@ export const RootContext = React.createContext<AuthContextProps>({} as AuthConte
 
 export class RootContextProvider extends React.Component<{}, AuthState> {
 
- 
     constructor(props : AuthContextProps) {
         super(props)
         if (window.localStorage.getItem('authenticationBody')) {
@@ -29,7 +28,7 @@ export class RootContextProvider extends React.Component<{}, AuthState> {
         }
     }
     
-    login = async(authentication: Authentication) => {
+    login = (authentication: Authentication) : void => {
         let response;
             response = authenticateUser(authentication)
             .then((response) => {
@@ -45,7 +44,7 @@ export class RootContextProvider extends React.Component<{}, AuthState> {
             })
   }
 
-    logout = () => {
+    logout = () : void => {
         logoutUser({session_token: this.getAuthenticationBody()})
         .catch((err) => {
             this.setState({isAuthenticated:false, authenticationError: FAILED_LOGOUT_ERROR_STRING})
@@ -66,7 +65,6 @@ export class RootContextProvider extends React.Component<{}, AuthState> {
     }
 
     render() {
-
   const contextValues = {
       isAuthenticated: this.state.isAuthenticated,
       login: this.login,

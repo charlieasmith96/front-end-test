@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from 'react';
-import { createContainer , VictoryLine, VictoryArea, VictoryStack, VictoryChart, VictoryBrushContainer, VictoryAxis, VictoryTooltip } from 'victory';
-import { subtractDate } from '../utils';
+import { createContainer , VictoryLine, VictoryLegend, VictoryArea, VictoryStack, VictoryChart, VictoryBrushContainer, VictoryAxis, VictoryTooltip } from 'victory';
+import { subtractDate } from '../helpers/date-utils';
 
 export interface ChartProps {
     dataSet1?: BroadcastData
@@ -10,34 +10,31 @@ export interface ChartProps {
     p2pAndCdnMax?: number 
     cdnMax?: number 
 }
+
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
+const INITIAL_ZOOM_DOMAIN = { x: [subtractDate(4), subtractDate(2)] }
 
 export type BroadcastData = number[][]
 
 export const Chart = (props : ChartProps)  => {
-    const [selectedDomain, setSelectedDomain] = useState({ x: [subtractDate(10), subtractDate(5)] });
-    const [zoomDomain, setZoomDomain] = useState({ x: [subtractDate(10), subtractDate(5)] });
+    const [zoomDomain, setZoomDomain] = useState(INITIAL_ZOOM_DOMAIN);
 
     const handleZoom = (domain: any) => {
-        setSelectedDomain(domain);
+      domain.y = undefined;
+      setZoomDomain(domain);
     }
     
-    const handleBrush = (domain: any) => {
-      // SET Y TO UNDEFINED TO RETAIN Y PROPORTIONS IN MAIN GRAPH
-        domain.y = undefined;
-        setZoomDomain(domain);
-     }
-
     return (
         <div>
-            {console.log(zoomDomain)}
-            <VictoryChart width={1000} height={250} scale={{x: "time"}} containerComponent={
+            <VictoryChart width={1000} height={250} scale={{x: "time"}} 
+            containerComponent={
               <VictoryZoomVoronoiContainer 
                 //@ts-ignore
-        
                 zoomDimension="x"
+                allowZoom={false}
+                allowPan={false}
                 zoomDomain={zoomDomain}
-                onZoomDomainChange={handleZoom}
+                onZoomDomainChange={(domain : any) => handleZoom(domain)}
                 //@ts-ignore
                 labels={({datum }) => `Maximum: ${(datum[1])}`}
                 voronoiDimension="x"
@@ -45,31 +42,32 @@ export const Chart = (props : ChartProps)  => {
             }>
 
             <VictoryStack>
-                <VictoryArea data={props.dataSet1} x={0} y={1} style={{data: {fill: "#C42151"}}} />
-                <VictoryArea data={props.dataSet2} x={0} y={1} style={{data: {fill: "#12A5ED"}}} />
+                <VictoryArea interpolation={"natural"} data={props.dataSet1} x={0} y={1} style={{data: {fill: "#C42151"}}} />
+                <VictoryArea interpolation={"natural"} data={props.dataSet2} x={0} y={1} style={{data: {fill: "#12A5ED"}}} />
              </VictoryStack>
 
-             <VictoryLine data={[[props.startDate, props.cdnMax], [props.endDate, props.cdnMax]]}
+             <VictoryLine data={[[props.startDate - 1, props.cdnMax], [props.endDate - 1, props.cdnMax]]}
               x={0} y={1} style={{data: {stroke: "red"}}} />
 
-             <VictoryLine data={[[props.startDate, props.p2pAndCdnMax], [props.endDate, props.p2pAndCdnMax]]}
-              x={0} y={1} style={{data: {stroke: "green"}}}/>
+             <VictoryLine data={[[props.startDate - 1, props.p2pAndCdnMax], [props.endDate - 1, props.p2pAndCdnMax]]}
+              x={0} y={1} style={{data: {stroke: "green", strokeWidth: 3}}}/>
 
             </VictoryChart>
             <VictoryChart width={1000} height={100} scale={{x: "time"}} padding={{top: 0, left: 50, right: 50, bottom: 30}}
+            style={{background: { fill: "#C9EDD9" }}}
             containerComponent={
               <VictoryBrushContainer responsive={true}
               brushDimension="x"
               //@ts-ignore
-              brushDomain={selectedDomain}
-              onBrushDomainChange={handleBrush}
+              brushDomain={zoomDomain}
+              onBrushDomainChange={(domain : any) => handleZoom(domain)}
               />
             }>
             <VictoryAxis>
 
             </VictoryAxis>
-              <VictoryLine data={props.dataSet1} x={0} y={1} />
-              <VictoryLine data={props.dataSet2} x={0} y={1} />
+              <VictoryLine data={props.dataSet1} x={0} y={1} interpolation={"natural"} />
+              <VictoryLine data={props.dataSet2} x={0} y={1} interpolation={"natural"} />
             </VictoryChart>
         </div>
     )

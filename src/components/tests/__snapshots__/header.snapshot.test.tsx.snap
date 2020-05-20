@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders chart correctly 1`] = `
+<div
+  className="nav-bar"
+>
+  <div
+    className="page-container"
+  >
+    <h1
+      className="nav-bar-text"
+    >
+      Data Dashboard
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`should render header correctly 1`] = `
+<div
+  className="nav-bar"
+>
+  <div
+    className="page-container"
+  >
+    <h1
+      className="nav-bar-text"
+    >
+      Data Dashboard
+    </h1>
+  </div>
+</div>
+`;

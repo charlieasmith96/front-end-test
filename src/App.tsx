@@ -10,12 +10,10 @@ import { Header } from './components/header';
 
 function App() {
   return (
-    <div>
-    <Header/>
     <Router>
       <Switch>
-        <UnAuthenticatedRoute exact path="/" component={() => (
-          <Login/>
+        <UnAuthenticatedRoute exact path="/" component={(authContextProps: AuthContextProps) => (
+          <Login {...authContextProps}/>
         )}/>
         <ProtectedRoute path="/dashboard" component={() => (
           <Dashboard/>)}/>
@@ -23,7 +21,6 @@ function App() {
           <h1>my info!</h1>)}/>
       </Switch>
     </Router>
-    </div>
   );
 }
 
