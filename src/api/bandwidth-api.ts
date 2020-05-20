@@ -13,11 +13,9 @@ export enum AGGREGATE {
     MAX = 'max', MIN = 'min', SUM = 'sum'
 }
 
-export const getBandwidthDataBySessionToken = (bandwidthRequest: BandwidthRequest) : Promise<any>  => {
+export const getBandwidthDataByDateWithSessionToken = (bandwidthRequest: BandwidthRequest) : Promise<any>  => {
     return superagent
     .post(`${url}/bandwidth`)
     .send(bandwidthRequest)
-    .then((err, response => {
-        console.log("I'm going through this route!")
-        return response.body})
+    .then(response =>  response.body)
 }

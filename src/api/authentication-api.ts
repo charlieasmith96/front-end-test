@@ -18,8 +18,8 @@ export const authenticateUser = (authentication: Authentication) : Promise<any> 
     .then(response => response.body)
 }
 
-export const logoutUser = (logoutRequest: LogoutRequest)  => {
-     superagent
+export const logoutUser = (logoutRequest: LogoutRequest) : Promise<any>  => {
+     return superagent
     .post(`${url}/logout`)
     .send(logoutRequest)
     .then(response => response.body)
