@@ -1,9 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer'
-import { Header } from '../../components/header';
 import { Login } from '../login';
 
-const testRootContext = {
+const testAuthContext = {
     isAuthenticated: true,
     login: jest.fn(),
     getAuthenticationBody: jest.fn(),
@@ -11,17 +10,17 @@ const testRootContext = {
     authenticationError: null
   }
 
-  const testRootContextWithError = {
-      ...testRootContext,
+  const testAuthContextWithError = {
+      ...testAuthContext,
       authenticationError: "test-error"
   }
 
 it('should render login page correctly', () => {
-    const tree = renderer.create(<Login {...testRootContext}/>)
+    const tree = renderer.create(<Login {...testAuthContext}/>)
     expect(tree).toMatchSnapshot();
 })
 
 it('should render login page correctly with error', () => {
-    const tree = renderer.create(<Login {...testRootContextWithError}/>)
+    const tree = renderer.create(<Login {...testAuthContextWithError}/>)
     expect(tree).toMatchSnapshot();
 })

@@ -1,5 +1,5 @@
-import React, { useState, ReactNode } from 'react';
-import { createContainer , VictoryLine, VictoryLegend, VictoryArea, VictoryStack, VictoryChart, VictoryBrushContainer, VictoryAxis, VictoryTooltip } from 'victory';
+import React, { useState } from 'react';
+import { createContainer , VictoryLine, VictoryArea, VictoryStack, VictoryChart, VictoryBrushContainer, VictoryAxis } from 'victory';
 import { subtractDate } from '../helpers/date-utils';
 
 export interface ChartProps {

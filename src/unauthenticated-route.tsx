@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import { RootContext } from './authentication/auth-context-provider'
+import { AuthContext } from './authentication/auth-context-provider'
 import { Redirect, Route, RouteProps, RouteComponentProps } from 'react-router-dom'
 
 interface UnAuthRouteProps extends RouteProps {
@@ -7,7 +7,7 @@ interface UnAuthRouteProps extends RouteProps {
 }
 
 export const UnAuthenticatedRoute = ({component: RouteComponent, ...restofRouteProps} : UnAuthRouteProps) => {
-    const authContext = useContext(RootContext)
+    const authContext = useContext(AuthContext)
 
     return (
         <Route {...restofRouteProps}

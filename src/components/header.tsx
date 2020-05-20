@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import './header.css';
-import { RootContext } from '../authentication/auth-context-provider';
+import { AuthContext } from '../authentication/auth-context-provider';
 
 export const Header = () => {
 
-    const {logout, isAuthenticated} = useContext(RootContext)
+    const {logout, isAuthenticated} = useContext(AuthContext)
 
     return (
         <div className="nav-bar">

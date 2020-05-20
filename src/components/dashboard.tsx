@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, SyntheticEvent } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { getBandwidthDataByDateWithSessionToken, BandwidthRequest, AGGREGATE } from '../api/bandwidth-api'
-import { RootContext } from '../authentication/auth-context-provider';
+import { AuthContext } from '../authentication/auth-context-provider';
 import { Chart, BroadcastData } from './chart';
 import { generateDates, subtractDate} from '../helpers/date-utils'
 import {Error} from './error';
@@ -16,7 +16,7 @@ export enum DATA_TYPES { CDN = 'cdn', P2P = 'p2p'}
 
 export const Dashboard = () => {
 
-    const { getAuthenticationBody } = useContext(RootContext);
+    const { getAuthenticationBody } = useContext(AuthContext);
 
     const [cdnData, setCdnData] = useState<BroadcastData>();
     const [p2pData, setP2pData] = useState<BroadcastData>();

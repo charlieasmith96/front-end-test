@@ -1,6 +1,6 @@
 import React from 'react';
 import { LegendItem } from '../legend-item';
-import { render, fireEvent, findByText} from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 describe('Header', () => {
     it("logout button should fire logout event", () => {

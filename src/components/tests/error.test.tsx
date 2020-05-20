@@ -1,6 +1,6 @@
 import React from 'react';
 import { Error } from '../error';
-import { render, fireEvent, findByText} from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 describe('Error', () => {
     it("should render error message", () => {

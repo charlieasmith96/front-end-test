@@ -15,9 +15,9 @@ export interface AuthState {
     authenticationError: string | null
 }
 
-export const RootContext = React.createContext<AuthContextProps>({} as AuthContextProps);
+export const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps);
 
-export class RootContextProvider extends React.Component<{}, AuthState> {
+export class AuthContextProvider extends React.Component<{}, AuthState> {
 
     constructor(props : AuthContextProps) {
         super(props)
@@ -74,9 +74,9 @@ export class RootContextProvider extends React.Component<{}, AuthState> {
   };
 
   return (
-      <RootContext.Provider value={contextValues}>
+      <AuthContext.Provider value={contextValues}>
           {this.props.children}
-      </RootContext.Provider>
+      </AuthContext.Provider>
   )
 }
 }
