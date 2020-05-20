@@ -1,25 +1,38 @@
 .nav-bar {
-    display: flex;
-    height: 100px;
+    height: 70px;
     background-color: #12A5ED;
 }
 
 .nav-bar-text {
-    font-size: 70px;
+    font-size: 40px;
+    display: inline-block;
+    justify-content: space-between;
     color: white;
-    margin-left: 20px;
-    margin-top: 0px
+    margin-top: 10px;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .nav-bar-logout {
-    position: absolute;
-    font-size: 35px;
+    font-size: 20px;
     color: white;
-    margin-top: 12px;
-    right: 20px;
-    padding: 10px;
-    background: none;
-	border: none;
-	padding: 0;
-	outline: none;
+    justify-content: space-between;
+    background: #0A3758;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: none;
+    height: 30px;
+    transition-duration: 0.5s;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.nav-bar-logout:hover {
+    background: rgb(43, 91, 126);
+    transition-duration: 0.5s;
+}
+
+.page-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
 }

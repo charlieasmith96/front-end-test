@@ -8,8 +8,10 @@ export const Header = () => {
 
     return (
         <div className="nav-bar">
-            <h1 className="nav-bar-text">Dashboard</h1>
-            {isAuthenticated && <button className="nav-bar-logout" onClick={() => logout()}>Log out</button>}
+            <div className="page-container">
+                <h1 className="nav-bar-text">Data Dashboard</h1>
+                {isAuthenticated && <button className="nav-bar-logout" onClick={() => logout()}>Log out</button>}
+            </div>
         </div>
     )
 

@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useContext, SyntheticEvent } from 'react'
-import { getBandwidthDataBySessionToken, BandwidthRequest, AGGREGATE } from '../api/bandwidth-api'
+import { getBandwidthDataByDateWithSessionToken, BandwidthRequest, AGGREGATE } from '../api/bandwidth-api'
 import { RootContext } from '../authentication/auth-context-provider';
 import { Chart, BroadcastData } from './chart';
-import { convertBitValueToGigabitValue, generateDates, subtractDate, convertBitsArrayToGigabitsArray } from '../utils'
-import { Form } from 'react-bootstrap';
+import { generateDates, subtractDate} from '../helpers/date-utils'
 import {Error} from './error';
+import { DropdownSelect} from './dropdown-select'
+import { Header } from '../components/header'
+import { LegendItem } from './legend-item'
+import { processBandwidthData, convertBitValueToGigabitValue } from '../helpers/bandwidth-data-processor';
+
+import './dashboard.css'
+import { UNEXPECTED_ERROR_STRING, UNAUTHORISED_ERROR_STRING } from './error-string-constants';
 
 export enum DATA_TYPES { CDN = 'cdn', P2P = 'p2p'}
 
@@ -14,34 +20,34 @@ export const Dashboard = () => {
 
     const [cdnData, setCdnData] = useState<BroadcastData>();
     const [p2pData, setP2pData] = useState<BroadcastData>();
-    const [startDate, setStartDate] = useState(subtractDate(15))
+    const [startDate, setStartDate] = useState(subtractDate(5))
     const [endDate, setEndDate] = useState(Date.now())
     const [dates, setDates] = useState<Date[]>([])
     const [cdnMax, setCdnMax] = useState<number>();
     const [p2pAndCdnMax, setP2pAndCdnMax] = useState<number>();
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 
      useEffect(() => {
-        var bandwidthRequest = {session_token: getAuthenticationBody(),
+        var bandwidthRequest = 
+        {session_token: getAuthenticationBody(),
              from: startDate,
              to: endDate
             }
 
-        getBandwidthDataBySessionToken(bandwidthRequest)
+        getBandwidthDataByDateWithSessionToken(bandwidthRequest)
         .then((response) => { 
-            let cdcData = response[DATA_TYPES.CDN];
-            let p2pData = response[DATA_TYPES.P2P]
-
-            let cdcDataTransformed = 
-                    cdcData.map((element : number[]) => convertBitsArrayToGigabitsArray(element))
-
-            let p2pDataTransformed = 
-                    p2pData.map((element : number[]) => convertBitsArrayToGigabitsArray(element))
-
-            setCdnData(cdcDataTransformed)
-            setP2pData(p2pDataTransformed)
-        }).catch((err) => { setErrorMessage(errorMessage)});
+            let processedData = processBandwidthData(response);
+            
+            setCdnData(processedData[0])
+            setP2pData(processedData[1])
+        }).catch((err : any) => { 
+            if (err.status === 403) {
+                setErrorMessage(UNAUTHORISED_ERROR_STRING);
+            } else {
+                setErrorMessage(UNEXPECTED_ERROR_STRING);
+            }
+        })
 
         var bandwidthRequestForMax : BandwidthRequest = {session_token: getAuthenticationBody(),
             from: startDate,
@@ -49,12 +55,17 @@ export const Dashboard = () => {
             aggregate: AGGREGATE.MAX
            }
 
-        getBandwidthDataBySessionToken(bandwidthRequestForMax)
+        getBandwidthDataByDateWithSessionToken(bandwidthRequestForMax)
         .then((response) => {
             setCdnMax(convertBitValueToGigabitValue(response[DATA_TYPES.CDN]));
             setP2pAndCdnMax(convertBitValueToGigabitValue(response[DATA_TYPES.P2P] + response[DATA_TYPES.CDN]));
-        }).catch((err) => { setErrorMessage(errorMessage)})
-
+        }).catch((err : any) => { 
+            if (err.status === 403) {
+                setErrorMessage(UNAUTHORISED_ERROR_STRING);
+            } else {
+                setErrorMessage(UNEXPECTED_ERROR_STRING);
+            }
+        })
         setDates(generateDates())
 
      }, [startDate, endDate])
@@ -69,25 +80,23 @@ export const Dashboard = () => {
 
     return (
         <div>
-            <h2>Bandwidth</h2>
+            <Header/>
             {!errorMessage ? <div>
-            (<Chart dataSet1={cdnData} dataSet2={p2pData} 
-            endDate={endDate} startDate={startDate} p2pAndCdnMax={p2pAndCdnMax} cdnMax={cdnMax}/>
-            <Form.Control as="select" onChange={(e) => handleStartDateChange(e)}>
-                {dates.map((date, i) => {
-                    return (
-                       <option key={i} value={date.valueOf()}>{date.toDateString()}</option> 
-                    )
-                })}
-            </Form.Control>
-            <Form.Control as="select" onChange={(e) => handleEndDateChange(e)}>
-                {dates.map((date, i) => {
-                    return (
-                       <option key={i} value={date.valueOf()}>{date.toDateString()}</option> 
-                    )
-                })}
-            </Form.Control>
-            </div>: (<Error errorMessage={errorMessage}/>)}
+            <div className='chart-container'>
+                <h2>Bandwidth</h2>
+               <LegendItem label="P2P" colour="blue"/>
+               <LegendItem label="CDN" colour="pink"/>
+               <LegendItem label={`Maximum CDN + P2P: ${p2pAndCdnMax} Gbp/s`} colour="green"/>
+               <LegendItem label={`Maximum CDN: ${cdnMax} Gbp/s`} colour="red"/>
+                <p className="axis-label">Gbp/s</p>
+                <Chart dataSet1={cdnData} dataSet2={p2pData} 
+                endDate={endDate} startDate={startDate} p2pAndCdnMax={p2pAndCdnMax} cdnMax={cdnMax}/>
+                <div className={"dropdown-container"}>
+                    <DropdownSelect dates={dates} onChangeHandler={handleStartDateChange} selectedIndex={5}/>
+                    <DropdownSelect dates={dates} onChangeHandler={handleEndDateChange} selectedIndex={0}/>
+                </div>
+            </div>
+            </div>: (<Error className="dashboard-error" errorMessage={errorMessage}/>)}
         </div>
     )
 }
