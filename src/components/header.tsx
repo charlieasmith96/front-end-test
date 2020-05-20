@@ -9,7 +9,8 @@ export const Header = () => {
     <div className="nav-bar">
       <div className="page-container">
         <h1 className="nav-bar-text">Data Dashboard</h1>
-        {isAuthenticated && <button className="nav-bar-logout" onClick={() => logout()}>Log out</button>}
+        {isAuthenticated && 
+            <button data-testid="logout-button" className="nav-bar-logout" onClick={() => logout()}>Log out</button>}
       </div>
     </div>
   );
