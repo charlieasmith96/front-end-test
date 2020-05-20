@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent} from '@testing-library/react';
+import { render, fireEvent, findByText} from '@testing-library/react';
 import { Login } from '../login';
 
 const testRootContext = {
@@ -9,6 +9,12 @@ const testRootContext = {
     logout: jest.fn(),
     authenticationError: null
   }
+
+  const testRootContextWithError = {
+      ...testRootContext, 
+      authenticationError: "test-error"
+  }
+  
 describe('should render login form', () => {
     it('should render Username and Password', () => {
         const { getByText } = render(<Login {...testRootContext}/>);
@@ -39,5 +45,18 @@ describe('should render login form', () => {
         fireEvent.click(button)
 
         expect(testRootContext.login).toHaveBeenCalledTimes(1)
+    }),
+    it('should display error if there is an error in state', async() => {
+        const { findByText, findByTestId } = render(<Login {...testRootContextWithError}/>);
+        
+        const userInput = await findByTestId('test-username-id')
+        const passwordInput = await findByTestId('test-password-id')
+
+        fireEvent.change(userInput, { target: { value: 'username' } })
+        fireEvent.change(passwordInput, { target: { value: 'password' } })
+
+        const errorMessage = await findByText('test-error');
+
+        expect(errorMessage).toBeInTheDocument();
     })
 }); 

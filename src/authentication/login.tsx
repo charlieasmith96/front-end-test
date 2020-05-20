@@ -2,6 +2,7 @@ import React, { useState, SyntheticEvent, useContext } from 'react'
 import { AuthContextProps, RootContext } from './auth-context-provider'
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import { Error } from '../components/error';
+import './login.css'
 
 interface LoginProps extends AuthContextProps {}
 
@@ -20,32 +21,40 @@ export const Login = (props: LoginProps) => {
     }
 
     return (
-    <div className="Login">
+      <div className="background">
+    <div className="login-container">
+      <h1 className="login-title">Welcome, please log in</h1>
       <form onSubmit={handleSubmit}>
+        <div className={"login"} >
         <FormGroup controlId="email">
-          <h2>Username</h2>
+          <h2 className="field-label"> Username</h2>
           <FormControl
             data-testid="test-username-id"
             autoFocus
+            className="form-field"
             type="text"
             value={identifiant}
             onChange={e => setIdentifiant(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password">
-          <h2>Password</h2>
+        <FormGroup className={"login"}controlId="password">
+          <h2 className="field-label">Password</h2>
           <FormControl
             data-testid="test-password-id"
             value={password}
+            className="form-field"
             onChange={e => setPassword(e.target.value)}
             type="password"
           />
         </FormGroup>
-        <Button data-testid='test-button' block disabled={!validateForm()} type="submit">
-          Login
+        <Button className="login-button" data-testid='test-button' block disabled={!validateForm()} type="submit">
+          Log in
         </Button>
-        {props.authenticationError && <Error errorMessage={props.authenticationError}/>}
+      </div>
       </form>
+      {props.authenticationError && <Error errorMessage={props.authenticationError}/>}
+
+    </div>
     </div>
     )
  }
