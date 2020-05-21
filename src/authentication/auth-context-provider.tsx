@@ -15,7 +15,8 @@ export interface AuthState {
     authenticationError: string | null
 }
 
-export const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps);
+export const 
+AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps);
 
 export class AuthContextProvider extends React.Component<{}, AuthState> {
   constructor(props : AuthContextProps) {
@@ -28,8 +29,7 @@ export class AuthContextProvider extends React.Component<{}, AuthState> {
   }
 
     login = (authentication: Authentication) : void => {
-      let response;
-      response = authenticateUser(authentication)
+      authenticateUser(authentication)
         .then((response) => {
           this.setState({ isAuthenticated: true, authenticationError: null });
           window.localStorage.setItem('authenticationBody', response.session_token);

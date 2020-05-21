@@ -1,6 +1,6 @@
-import React, { useState, SyntheticEvent, useContext } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import { Button, FormGroup, FormControl } from 'react-bootstrap';
-import { AuthContextProps, AuthContext } from './auth-context-provider';
+import { AuthContextProps } from './auth-context-provider';
 import { Error } from '../components/error';
 import './login.css';
 
