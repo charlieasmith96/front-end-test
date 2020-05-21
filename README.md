@@ -22,4 +22,5 @@ CORS policy MUST to be enabled in the backend mock to be able to communicate.
 4. From date and To date are generated from the current date to 15 days earlier, and NOT based on the data
     Future enhancement: Generate From date and To date from the data points
 5. Lack of testing coverage due to lack of prior experience with React-Testing-Library (I am  used to Enzyme)
-
+6. CSS is vanilla and therefore not scalable
+    Future enhancement: if the project was to become larger, implement CSS Modules and SASS
