@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Login } from './authentication/login';
 import { UnAuthenticatedRoute } from './unauthenticated-route';
