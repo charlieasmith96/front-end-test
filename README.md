@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Email Address: charlieasmith96@gmail.com
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -24,3 +26,5 @@ CORS policy MUST to be enabled in the backend mock to be able to communicate.
 5. Lack of testing coverage due to lack of prior experience with React-Testing-Library (I am  used to Enzyme)
 6. CSS is vanilla and therefore not scalable.
     Future enhancement: if the project was to become larger, implement CSS Modules and SASS
+    
+   
